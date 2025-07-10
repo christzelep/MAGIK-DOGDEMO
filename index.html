@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydraPup - Dog Hydration Calculator</title>
+    <meta name="description" content="HydraPup - The Ultimate Dog Health & Hydration Tracker">
+    <meta name="theme-color" content="#4b86b4">
+    <title>HydraPup - Dog Health & Hydration Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap">
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --primary: #4b86b4;
@@ -415,6 +418,100 @@
             top: -20px;
         }
         
+        /* Locked Features Section */
+        .locked-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .feature-card.locked {
+            opacity: 0.7;
+            position: relative;
+        }
+        
+        .feature-card.locked::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+        }
+        
+        .feature-card.locked::after {
+            content: "PRO";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+            padding: 8px 25px;
+            border-radius: 30px;
+            font-size: 24px;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            background: rgba(75, 134, 180, 0.1);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+        
+        .feature-card h4 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .feature-card p {
+            color: #666;
+            font-size: 17px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-cta {
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .feature-cta:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
         /* App Install Section */
         .install-section {
             background: white;
@@ -481,52 +578,6 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
         
-        /* Features Section */
-        .features-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-        
-        .feature-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .feature-card i {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 20px;
-            background: rgba(75, 134, 180, 0.1);
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-        }
-        
-        .feature-card h4 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-        
-        .feature-card p {
-            color: #666;
-            font-size: 17px;
-        }
-        
         /* Footer */
         footer {
             text-align: center;
@@ -558,6 +609,27 @@
             color: var(--secondary);
         }
         
+        /* PWA Install Button */
+        #installButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .logo h1 {
@@ -568,7 +640,7 @@
                 font-size: 26px;
             }
             
-            .install-buttons {
+            .install-buttons, .locked-features {
                 flex-direction: column;
                 align-items: center;
             }
@@ -585,10 +657,18 @@
                 padding: 18px 25px;
                 font-size: 18px;
             }
+            
+            .feature-card {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <button id="installButton">
+        <i class="fas fa-download"></i> Install App
+    </button>
+
     <div class="container">
         <header>
             <div class="logo">
@@ -600,7 +680,7 @@
         <main>
             <section class="calculator-card">
                 <div class="calculator-header">
-                    <h2><i class="fas fa-calculator"></i> Dog Hydration Calculator</h2>
+                    <h2><i class="fas fa-calculator"></i> Dog Hydration & Health Tracker</h2>
                     <p>Instantly calculate your dog's daily water needs - no email required!</p>
                 </div>
                 
@@ -642,15 +722,15 @@
                         </div>
                         <div class="risk-label risk-medium">Moderate Risk</div>
                         
-                        <div class="upgrade-offer">
+                        <div class="upgrade-offer" id="upgradeSection">
                             <div class="offer-header">
                                 <i class="fas fa-bell"></i>
-                                <h3>Don't Risk Dehydration!</h3>
+                                <h3>Complete Your Dog's Health Protection!</h3>
                             </div>
                             
                             <div class="fomo-alert">
                                 <i class="fas fa-exclamation-circle"></i>
-                                <p>10 dogs like yours were at risk yesterday! ⚠️ Upgrade for personalized dehydration alerts</p>
+                                <p>10 dogs like yours faced health risks yesterday! ⚠️ Upgrade now for full protection</p>
                             </div>
                             
                             <table class="comparison-table">
@@ -660,83 +740,121 @@
                                     <th class="pro-version">Pro Version ($9.99)</th>
                                 </tr>
                                 <tr>
-                                    <td>Water Calculation</td>
+                                    <td>Water Calculator</td>
                                     <td class="free-version"><i class="fas fa-check"></i></td>
                                     <td class="pro-version"><i class="fas fa-check"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>Mobile Reminders</td>
+                                    <td>Dehydration Risk Assessment</td>
+                                    <td class="free-version"><i class="fas fa-check"></i></td>
+                                    <td class="pro-version"><i class="fas fa-check"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Medication Tracker & Reminders</td>
                                     <td class="free-version"><i class="fas fa-times"></i></td>
                                     <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>Dehydration Alerts</td>
+                                    <td>Health Symptom Checker</td>
                                     <td class="free-version"><i class="fas fa-times"></i></td>
                                     <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>Water History Tracking</td>
+                                    <td>Emergency Vet Locator</td>
                                     <td class="free-version"><i class="fas fa-times"></i></td>
                                     <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>Breed Comparison</td>
+                                    <td>Vaccination Tracker</td>
                                     <td class="free-version"><i class="fas fa-times"></i></td>
                                     <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>FREE Training Videos</td>
+                                    <td>Personalized Diet Plans</td>
+                                    <td class="free-version"><i class="fas fa-times"></i></td>
+                                    <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>FREE Training Videos ($47 value)</td>
                                     <td class="free-version"><i class="fas fa-times"></i></td>
                                     <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
                                 </tr>
                             </table>
                             
                             <button class="upgrade-btn">
-                                <i class="fas fa-rocket"></i> Get Pro for $9.99 - Includes FREE Training!
+                                <i class="fas fa-rocket"></i> Get Pro for $9.99 - Unlock All Features!
                             </button>
                             
                             <div class="bonus-offer">
                                 <i class="fas fa-gift"></i>
-                                <p>BONUS: FREE $47 Dog Nutrition Video Course Included!</p>
+                                <p>BONUS: FREE $47 Dog Nutrition & Health Video Course Included!</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
             
-            <section class="install-section">
-                <h3><i class="fas fa-mobile-alt"></i> Never Forget Hydration Again!</h3>
-                <p>Get personalized water reminders and health alerts directly on your phone</p>
+            <section class="locked-features">
+                <div class="feature-card locked">
+                    <div class="feature-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <h4>Medication Tracker</h4>
+                    <p>Never miss a dose with smart medication reminders and tracking system</p>
+                    <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
+                </div>
                 
-                <div class="install-buttons">
-                    <a href="#" class="install-btn">
-                        <i class="fab fa-android"></i> Install Free App
-                    </a>
-                    <a href="#" class="install-btn">
-                        <i class="fab fa-apple"></i> Install Free App
-                    </a>
+                <div class="feature-card locked">
+                    <div class="feature-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h4>Health Symptom Checker</h4>
+                    <p>Identify potential health issues based on symptoms and behaviors</p>
+                    <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
+                </div>
+                
+                <div class="feature-card locked">
+                    <div class="feature-icon">
+                        <i class="fas fa-ambulance"></i>
+                    </div>
+                    <h4>Emergency Vet Locator</h4>
+                    <p>Find the nearest emergency vet with one tap in critical situations</p>
+                    <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
+                </div>
+                
+                <div class="feature-card locked">
+                    <div class="feature-icon">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h4>Vaccination Tracker</h4>
+                    <p>Track vaccination schedules and get reminders for boosters</p>
+                    <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
+                </div>
+                
+                <div class="feature-card locked">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h4>Personalized Diet Plans</h4>
+                    <p>Custom meal plans based on breed, age, and health conditions</p>
+                    <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
                 </div>
             </section>
             
-            <div class="features-section">
-                <div class="feature-card">
-                    <i class="fas fa-bell"></i>
-                    <h4>Smart Reminders</h4>
-                    <p>Never forget to give your dog water with our smart notification system</p>
+            <section class="install-section">
+                <h3><i class="fas fa-mobile-alt"></i> Get Full Health Protection on Your Phone!</h3>
+                <p>Install HydraPup on your device for real-time health monitoring and alerts</p>
+                
+                <div class="install-buttons">
+                    <button class="install-btn" id="installPWA">
+                        <i class="fas fa-download"></i> Install Free App
+                    </button>
                 </div>
                 
-                <div class="feature-card">
-                    <i class="fas fa-heartbeat"></i>
-                    <h4>Health Tracking</h4>
-                    <p>Monitor your dog's hydration patterns and detect potential issues early</p>
-                </div>
-                
-                <div class="feature-card">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h4>Free Training</h4>
-                    <p>Pro users get exclusive access to our dog nutrition and care video course</p>
-                </div>
-            </div>
+                <p style="margin-top: 20px; font-size: 16px;">
+                    <i class="fas fa-info-circle"></i> Our app works on all devices - Android, iOS, and desktop
+                </p>
+            </section>
         </main>
         
         <footer>
@@ -751,14 +869,22 @@
         </footer>
     </div>
 
+    <!-- Hidden content for PWA -->
     <script>
+        // Initialize deferredPrompt for use later to show browser install prompt
+        let deferredPrompt;
+
         document.addEventListener('DOMContentLoaded', function() {
             const calculateBtn = document.querySelector('.calculate-btn');
             const resultsContainer = document.querySelector('.results-container');
             const waterResult = document.querySelector('.water-result');
             const riskLevel = document.querySelector('.risk-level');
             const riskLabel = document.querySelector('.risk-label');
+            const upgradeBtn = document.querySelector('.upgrade-btn');
+            const installPWA = document.getElementById('installPWA');
+            const installButton = document.getElementById('installButton');
             
+            // Water calculation functionality
             calculateBtn.addEventListener('click', function() {
                 const weight = parseFloat(document.getElementById('dogWeight').value);
                 
@@ -818,24 +944,58 @@
                 resultsContainer.scrollIntoView({ behavior: 'smooth' });
             });
             
-            // Install App buttons
-            const installButtons = document.querySelectorAll('.install-btn');
-            installButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    alert('For this demo, the app installation would begin. In a real app, this would redirect to the app store.');
-                });
-            });
-            
-            // Upgrade button
-            const upgradeBtn = document.querySelector('.upgrade-btn');
+            // Upgrade button functionality
             if (upgradeBtn) {
                 upgradeBtn.addEventListener('click', function() {
-                    alert('In a real app, this would begin the upgrade process with the FREE $47 training included.');
+                    alert('Thank you for choosing HydraPup Pro! You now have full access to all features including medication tracking, health monitoring, and premium training videos.');
                 });
             }
             
-            // Demo initialization - show results if parameters are present in URL
+            // PWA Installation functionality
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // Prevent the mini-infobar from appearing on mobile
+                e.preventDefault();
+                // Stash the event so it can be triggered later
+                deferredPrompt = e;
+                // Update UI to notify the user they can install the PWA
+                installButton.style.display = 'block';
+                
+                installButton.addEventListener('click', () => {
+                    // Show the install prompt
+                    deferredPrompt.prompt();
+                    // Wait for the user to respond to the prompt
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        } else {
+                            console.log('User dismissed the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            });
+            
+            // Add click event for install button
+            installPWA.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    // Show the install prompt
+                    deferredPrompt.prompt();
+                    // Wait for the user to respond to the prompt
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        } else {
+                            console.log('User dismissed the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    // If PWA installation not available, show message
+                    alert('The app is ready to install! Please look for the "Install" button in your browser menu or address bar.');
+                }
+            });
+            
+            // Show demo results if parameters are present in URL
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('demo')) {
                 document.getElementById('dogWeight').value = 25;
