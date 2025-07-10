@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="HydraPup - The Ultimate Dog Health & Hydration Tracker">
-    <meta name="theme-color" content="#4b86b4">
     <title>HydraPup - Dog Health & Hydration Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap">
-    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --primary: #4b86b4;
@@ -781,13 +779,14 @@
                                 </tr>
                             </table>
                             
-                            <button class="upgrade-btn">
+                            <button class="upgrade-btn" id="upgradeButton">
                                 <i class="fas fa-rocket"></i> Get Pro for $9.99 - Unlock All Features!
                             </button>
                             
                             <div class="bonus-offer">
                                 <i class="fas fa-gift"></i>
                                 <p>BONUS: FREE $47 Dog Nutrition & Health Video Course Included!</p>
+                                <p><strong>One-time payment - No subscriptions, no hidden fees!</strong></p>
                             </div>
                         </div>
                     </div>
@@ -869,18 +868,14 @@
         </footer>
     </div>
 
-    <!-- Hidden content for PWA -->
     <script>
-        // Initialize deferredPrompt for use later to show browser install prompt
-        let deferredPrompt;
-
         document.addEventListener('DOMContentLoaded', function() {
             const calculateBtn = document.querySelector('.calculate-btn');
             const resultsContainer = document.querySelector('.results-container');
             const waterResult = document.querySelector('.water-result');
             const riskLevel = document.querySelector('.risk-level');
             const riskLabel = document.querySelector('.risk-label');
-            const upgradeBtn = document.querySelector('.upgrade-btn');
+            const upgradeBtn = document.getElementById('upgradeButton');
             const installPWA = document.getElementById('installPWA');
             const installButton = document.getElementById('installButton');
             
@@ -948,50 +943,47 @@
             if (upgradeBtn) {
                 upgradeBtn.addEventListener('click', function() {
                     alert('Thank you for choosing HydraPup Pro! You now have full access to all features including medication tracking, health monitoring, and premium training videos.');
+                    // In a real app, this would redirect to a payment page
                 });
             }
             
             // PWA Installation functionality
+            let deferredPrompt;
+            
             window.addEventListener('beforeinstallprompt', (e) => {
                 // Prevent the mini-infobar from appearing on mobile
                 e.preventDefault();
                 // Stash the event so it can be triggered later
                 deferredPrompt = e;
-                // Update UI to notify the user they can install the PWA
+                // Show the install button
                 installButton.style.display = 'block';
-                
-                installButton.addEventListener('click', () => {
-                    // Show the install prompt
-                    deferredPrompt.prompt();
-                    // Wait for the user to respond to the prompt
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the install prompt');
-                        } else {
-                            console.log('User dismissed the install prompt');
-                        }
-                        deferredPrompt = null;
-                    });
-                });
             });
             
-            // Add click event for install button
-            installPWA.addEventListener('click', () => {
+            // Add click event for install button in footer
+            installPWA.addEventListener('click', async () => {
                 if (deferredPrompt) {
                     // Show the install prompt
                     deferredPrompt.prompt();
                     // Wait for the user to respond to the prompt
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the install prompt');
-                        } else {
-                            console.log('User dismissed the install prompt');
-                        }
-                        deferredPrompt = null;
-                    });
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`User response to the install prompt: ${outcome}`);
+                    // We've used the prompt, and can't use it again, throw it away
+                    deferredPrompt = null;
                 } else {
-                    // If PWA installation not available, show message
-                    alert('The app is ready to install! Please look for the "Install" button in your browser menu or address bar.');
+                    // The deferred prompt isn't available, show instructions
+                    alert("To install this app:\n\n1. Open your browser menu\n2. Tap 'Install' or 'Add to Home Screen'");
+                }
+            });
+            
+            // Add click event for floating install button
+            installButton.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`User response to the install prompt: ${outcome}`);
+                    deferredPrompt = null;
+                    // Hide the install button after installation
+                    installButton.style.display = 'none';
                 }
             });
             
@@ -1002,6 +994,19 @@
                 setTimeout(() => {
                     calculateBtn.click();
                 }, 500);
+            }
+            
+            // Register service worker for PWA
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
             }
         });
     </script>
