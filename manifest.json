@@ -1,0 +1,21 @@
+{
+  "name": "HydraPup",
+  "short_name": "HydraPup",
+  "description": "Dog Health & Hydration Tracker",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e0f7fa",
+  "theme_color": "#4b86b4",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
