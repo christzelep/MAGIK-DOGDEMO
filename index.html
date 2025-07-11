@@ -79,6 +79,57 @@
             box-shadow: var(--shadow);
         }
         
+        .upgrade-header-btn {
+            background: linear-gradient(90deg, #ff9800 0%, #ff5722 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 35px;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 6px 15px rgba(255, 87, 34, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upgrade-header-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 87, 34, 0.6);
+        }
+        
+        .upgrade-header-btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+            transition: all 0.6s;
+        }
+        
+        .upgrade-header-btn:hover::after {
+            transform: rotate(30deg) translate(20%, 20%);
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.6); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 87, 34, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0); }
+        }
+        
         /* Main Calculator Section */
         .calculator-card {
             background: white;
@@ -264,12 +315,6 @@
             animation: pulse 2s infinite;
         }
         
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(240, 173, 78, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(240, 173, 78, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(240, 173, 78, 0); }
-        }
-        
         .offer-header {
             display: flex;
             align-items: center;
@@ -414,6 +459,32 @@
             opacity: 0.1;
             right: -20px;
             top: -20px;
+        }
+        
+        .training-offer {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 25px 0 15px;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .training-offer i {
+            position: absolute;
+            font-size: 80px;
+            opacity: 0.2;
+            right: 10px;
+            top: 10px;
+        }
+        
+        .training-offer strong {
+            font-size: 20px;
+            display: block;
+            margin-top: 5px;
         }
         
         /* Locked Features Section */
@@ -626,6 +697,13 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             z-index: 1000;
             display: none;
+            transition: all 0.3s;
+        }
+        
+        #installButton:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
         }
         
         /* Responsive Design */
@@ -651,13 +729,20 @@
                 padding: 25px;
             }
             
-            .install-btn, .upgrade-btn {
-                padding: 18px 25px;
+            .install-btn, .upgrade-btn, .upgrade-header-btn {
+                padding: 16px 20px;
                 font-size: 18px;
             }
             
             .feature-card {
                 margin-bottom: 20px;
+            }
+            
+            .upgrade-header-btn {
+                margin-top: 15px;
+                width: 100%;
+                text-align: center;
+                justify-content: center;
             }
         }
     </style>
@@ -673,6 +758,9 @@
                 <i class="fas fa-paw"></i>
                 <h1>HydraPup</h1>
             </div>
+            <button class="upgrade-header-btn pulse" id="headerUpgradeButton">
+                <i class="fas fa-crown"></i> Upgrade $9.99
+            </button>
         </header>
 
         <main>
@@ -779,6 +867,12 @@
                                 </tr>
                             </table>
                             
+                            <div class="training-offer">
+                                <i class="fas fa-user-graduate"></i>
+                                <p>With your upgrade, you'll also get <strong>FREE personal training sessions</strong> from certified dog trainers!</p>
+                                <strong>No credit cards required - No trials - Just included!</strong>
+                            </div>
+                            
                             <button class="upgrade-btn" id="upgradeButton">
                                 <i class="fas fa-rocket"></i> Get Pro for $9.99 - Unlock All Features!
                             </button>
@@ -876,6 +970,7 @@
             const riskLevel = document.querySelector('.risk-level');
             const riskLabel = document.querySelector('.risk-label');
             const upgradeBtn = document.getElementById('upgradeButton');
+            const headerUpgradeBtn = document.getElementById('headerUpgradeButton');
             const installPWA = document.getElementById('installPWA');
             const installButton = document.getElementById('installButton');
             
@@ -939,24 +1034,47 @@
                 resultsContainer.scrollIntoView({ behavior: 'smooth' });
             });
             
-            // Upgrade button functionality - redirects to payment page
+            // Upgrade button functionality - redirects to Gumroad
             if (upgradeBtn) {
                 upgradeBtn.addEventListener('click', function() {
-                    // In a real app, this would redirect to your payment page
-                    alert('You would now be redirected to the payment page for HydraPup Pro. This is a demo.');
+                    window.location.href = "https://gumroad.com/l/hydrapup-pro";
+                });
+            }
+            
+            // Header upgrade button functionality
+            if (headerUpgradeBtn) {
+                headerUpgradeBtn.addEventListener('click', function() {
+                    // Scroll to upgrade section
+                    document.getElementById('upgradeSection').scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Highlight the upgrade section
+                    const upgradeSection = document.getElementById('upgradeSection');
+                    upgradeSection.style.animation = 'pulse 1s 3';
+                    
+                    setTimeout(() => {
+                        upgradeSection.style.animation = '';
+                    }, 3000);
                 });
             }
             
             // PWA Installation functionality
             let deferredPrompt;
+            let installPromptShown = false;
             
             window.addEventListener('beforeinstallprompt', (e) => {
                 // Prevent the mini-infobar from appearing on mobile
                 e.preventDefault();
-                // Stash the event so it can be triggered later
-                deferredPrompt = e;
-                // Show the install button
-                installButton.style.display = 'block';
+                
+                // Only show the prompt once per session
+                if (!installPromptShown) {
+                    // Stash the event so it can be triggered later
+                    deferredPrompt = e;
+                    // Show the install button
+                    installButton.style.display = 'flex';
+                    
+                    // Set flag to prevent showing again
+                    installPromptShown = true;
+                }
             });
             
             // Add click event for install button in footer
@@ -966,16 +1084,20 @@
                     deferredPrompt.prompt();
                     // Wait for the user to respond to the prompt
                     const { outcome } = await deferredPrompt.userChoice;
+                    
                     if (outcome === 'accepted') {
                         console.log('User accepted the install prompt');
+                        // Hide the install button after installation
+                        installButton.style.display = 'none';
                     } else {
                         console.log('User dismissed the install prompt');
                     }
+                    
                     // We've used the prompt, and can't use it again, throw it away
                     deferredPrompt = null;
                 } else {
                     // The deferred prompt isn't available, show instructions
-                    alert("To install this app:\n\n1. Open your browser menu\n2. Tap 'Install' or 'Add to Home Screen'");
+                    alert("To install this app:\n\n1. Open your browser menu (three dots)\n2. Tap 'Install' or 'Add to Home Screen'");
                 }
             });
             
@@ -984,16 +1106,23 @@
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
                     const { outcome } = await deferredPrompt.userChoice;
+                    
                     if (outcome === 'accepted') {
                         console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
+                        // Hide the install button after installation
+                        installButton.style.display = 'none';
                     }
+                    
                     deferredPrompt = null;
-                    // Hide the install button after installation
-                    installButton.style.display = 'none';
                 }
             });
+            
+            // Hide install button after 30 seconds if not clicked
+            setTimeout(() => {
+                if (installButton.style.display === 'flex') {
+                    installButton.style.display = 'none';
+                }
+            }, 30000);
             
             // Show demo results if parameters are present in URL
             const urlParams = new URLSearchParams(window.location.search);
