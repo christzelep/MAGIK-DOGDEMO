@@ -939,10 +939,11 @@
                 resultsContainer.scrollIntoView({ behavior: 'smooth' });
             });
             
-            // Upgrade button functionality - redirects to Gumroad
+            // Upgrade button functionality - redirects to payment page
             if (upgradeBtn) {
                 upgradeBtn.addEventListener('click', function() {
-                    window.location.href = "https://gumroad.com/l/hydrapup-pro";
+                    // In a real app, this would redirect to your payment page
+                    alert('You would now be redirected to the payment page for HydraPup Pro. This is a demo.');
                 });
             }
             
@@ -965,7 +966,11 @@
                     deferredPrompt.prompt();
                     // Wait for the user to respond to the prompt
                     const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`User response to the install prompt: ${outcome}`);
+                    if (outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
                     // We've used the prompt, and can't use it again, throw it away
                     deferredPrompt = null;
                 } else {
@@ -979,7 +984,11 @@
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
                     const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`User response to the install prompt: ${outcome}`);
+                    if (outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
                     deferredPrompt = null;
                     // Hide the install button after installation
                     installButton.style.display = 'none';
