@@ -846,21 +846,6 @@
                                     <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
                                 </tr>
                                 <tr>
-                                    <td>Emergency Vet Locator</td>
-                                    <td class="free-version"><i class="fas fa-times"></i></td>
-                                    <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>Vaccination Tracker</td>
-                                    <td class="free-version"><i class="fas fa-times"></i></td>
-                                    <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>Personalized Diet Plans</td>
-                                    <td class="free-version"><i class="fas fa-times"></i></td>
-                                    <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
-                                </tr>
-                                <tr>
                                     <td>FREE Training Videos ($47 value)</td>
                                     <td class="free-version"><i class="fas fa-times"></i></td>
                                     <td class="pro-version"><i class="fas fa-check pro-highlight"></i></td>
@@ -903,33 +888,6 @@
                     </div>
                     <h4>Health Symptom Checker</h4>
                     <p>Identify potential health issues based on symptoms and behaviors</p>
-                    <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
-                </div>
-                
-                <div class="feature-card locked">
-                    <div class="feature-icon">
-                        <i class="fas fa-ambulance"></i>
-                    </div>
-                    <h4>Emergency Vet Locator</h4>
-                    <p>Find the nearest emergency vet with one tap in critical situations</p>
-                    <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
-                </div>
-                
-                <div class="feature-card locked">
-                    <div class="feature-icon">
-                        <i class="fas fa-syringe"></i>
-                    </div>
-                    <h4>Vaccination Tracker</h4>
-                    <p>Track vaccination schedules and get reminders for boosters</p>
-                    <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
-                </div>
-                
-                <div class="feature-card locked">
-                    <div class="feature-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <h4>Personalized Diet Plans</h4>
-                    <p>Custom meal plans based on breed, age, and health conditions</p>
                     <a href="#upgradeSection" class="feature-cta">Upgrade to Unlock</a>
                 </div>
             </section>
@@ -1037,23 +995,14 @@
             // Upgrade button functionality - redirects to Gumroad
             if (upgradeBtn) {
                 upgradeBtn.addEventListener('click', function() {
-                    window.location.href = "https://gumroad.com/l/hydrapup-pro";
+                    window.location.href = "https://gadgeteer70.gumroad.com/l/petpro";
                 });
             }
             
             // Header upgrade button functionality
             if (headerUpgradeBtn) {
                 headerUpgradeBtn.addEventListener('click', function() {
-                    // Scroll to upgrade section
-                    document.getElementById('upgradeSection').scrollIntoView({ behavior: 'smooth' });
-                    
-                    // Highlight the upgrade section
-                    const upgradeSection = document.getElementById('upgradeSection');
-                    upgradeSection.style.animation = 'pulse 1s 3';
-                    
-                    setTimeout(() => {
-                        upgradeSection.style.animation = '';
-                    }, 3000);
+                    window.location.href = "https://gadgeteer70.gumroad.com/l/petpro";
                 });
             }
             
